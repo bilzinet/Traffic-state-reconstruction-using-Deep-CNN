@@ -4,6 +4,10 @@ In this study, we propose a statistical learning-based traffic speed estimation 
 
 The draft copy of the paper can be found here: https://arxiv.org/abs/2002.04406
 
+Some reconstruction results
+
+![Learned filters which are relevant for traffic flow reconstruction](Trained%20models/Reconstruction.PNG)
+
 Learned filters which are relevant for traffic flow reconstruction
 
 ![Learned filters which are relevant for traffic flow reconstruction](Trained%20models/LearnedFilters.PNG)
