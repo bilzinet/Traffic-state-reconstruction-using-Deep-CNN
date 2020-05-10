@@ -6,4 +6,4 @@ The draft copy of the paper can be found here: https://arxiv.org/abs/2002.04406
 
 Learned filters which are relevant for traffic flow reconstruction
 
-![](Trained%20models/LearnedFilters.PNG)
+![Learned filters which are relevant for traffic flow reconstruction](Trained%20models/LearnedFilters.PNG)
