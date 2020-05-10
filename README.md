@@ -8,7 +8,7 @@ The draft copy of the paper can be found here: https://arxiv.org/abs/2002.04406
 
 <img src="Trained%20models/Reconstruction.PNG" width="600">
 
-### Learned filters which are relevant for traffic flow reconstruction
+### Learned filters relevant for traffic flow reconstruction
 
 <img src="Trained%20models/LearnedFilters.PNG" width="600">
 
