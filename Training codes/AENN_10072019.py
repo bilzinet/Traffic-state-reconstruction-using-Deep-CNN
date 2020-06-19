@@ -40,7 +40,7 @@ autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='Adam', loss='binary_crossentropy', metrics=['mse','mae'])
 autoencoder.summary()
 
-# ------------ Loading training data ------------ #
+# -------------- Loading training data -------------- #
 
 # Read in the data (images) according to the sizes
 def load_image( subfolder) :
@@ -63,7 +63,7 @@ x_train,x_test,y_train,y_test = train_test_split(input_X,
                                                  test_size=0.1, 
                                                  random_state=13)
 
-# ------------- Train the model ---------------- #
+# -------------- Train the model --------------- #
 
 # Learning step by step
 loss = []; val_loss = []; mse = []; mae = []; val_mse = []; val_mae = []
