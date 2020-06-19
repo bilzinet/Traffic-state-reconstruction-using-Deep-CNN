@@ -1,3 +1,5 @@
+# ----------------- Import Libraries --------------- #
+
 from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D
 from keras.models import Model, load_model
 from keras.callbacks import TensorBoard
@@ -8,12 +10,14 @@ import cv2
 from sklearn.model_selection import train_test_split
 import glob
 
+# ------------- CNN Reconstruction model ------------ #
 
-
+# Input size (space-time discretization)
 h=80
 w=60
 input_img = Input(shape=(h,w,3))
 
+# Encoder model
 x = Conv2D(64, (7, 7), activation='relu', padding='same')(input_img)
 x = MaxPooling2D((2, 3), padding='same')(x)
 x = Conv2D(32, (7, 7), activation='relu', padding='same')(x)
@@ -21,7 +25,7 @@ x = MaxPooling2D((2, 2), padding='same')(x)
 x = Conv2D(16, (5, 5), activation='relu', padding='same')(x)
 encoded = MaxPooling2D((2, 2), padding='same')(x)
 
-
+# Decoder model
 x = Conv2D(16, (5, 5), activation='relu', padding='same')(encoded)
 x = UpSampling2D((2, 2))(x)
 x = Conv2D(32, (5, 5), activation='relu', padding='same')(x)
@@ -30,12 +34,14 @@ x = Conv2D(64, (7, 7), activation='relu', padding='same')(x)
 x = UpSampling2D((2, 3))(x)
 decoded = Conv2D(3, (7, 7), activation='sigmoid', padding='same')(x)
 
+# Reconstruction model
 autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='Adam', loss='binary_crossentropy', metrics=['mse','mae'])
 autoencoder.summary()
 
-# Read in the data (images) according to the sizes
+# ------------ Loading training data ------------ #
 
+# Read in the data (images) according to the sizes
 def load_image( subfolder) :
     imgsTotalNum = (glob.glob('./Data_11072019b/{}/*.jpg'.format(subfolder)))
     data_All = np.zeros((len(imgsTotalNum),h,w,3))
@@ -55,7 +61,9 @@ x_train,x_test,y_train,y_test = train_test_split(input_X,
                                                  output_Y, 
                                                  test_size=0.1, 
                                                  random_state=13)
-# Train the model
+
+# ------------- Train the model ---------------- #
+
 # Learning step by step
 loss = []; val_loss = []; mse = []; mae = []; val_mse = []; val_mae = []
 for time in range(10):
@@ -91,7 +99,7 @@ np.save('MAE_values.npy', np.array(mae))
 np.save('Val_MAE_values.npy', np.array(val_mae))
 
 
-# ----------------------------- Model performance --------------------------- #
+# ------------ Model performance ------------ #
 
 plt.figure(figsize=(4,4))
 plt.plot(loss, label='Loss_train')
@@ -126,11 +134,10 @@ plt.yticks(fontsize=9)
 plt.grid()
 plt.savefig('Performance_plot_mae.pdf')
 
-
 autoencoder = load_model('Speed-reconstruct-cnnmodel-{}.h5'.format(time))
 decoded_imgs = autoencoder.predict(x_test)
 
-# take a look at the reconstructed digits
+# Test reconstruction
 import random
 nn = np.arange(0,len(x_test),1)
 n = random.choices(nn,k=4)
@@ -157,7 +164,6 @@ plt.show()
 
 from keras.utils import plot_model
 plot_model(autoencoder, to_file='model.png')
-
 
 filled = []
 for i in range(x_train.shape[0]):
