@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import cv2
 from sklearn.model_selection import train_test_split
 import glob
+import random
 
 # ------------- CNN Reconstruction model ------------ #
 
@@ -134,11 +135,12 @@ plt.yticks(fontsize=9)
 plt.grid()
 plt.savefig('Performance_plot_mae.pdf')
 
+
+# ---------- Test the reconstruction model ----------- #
+
 autoencoder = load_model('Speed-reconstruct-cnnmodel-{}.h5'.format(time))
 decoded_imgs = autoencoder.predict(x_test)
 
-# Test reconstruction
-import random
 nn = np.arange(0,len(x_test),1)
 n = random.choices(nn,k=4)
 
