@@ -19,21 +19,21 @@ w=60
 input_img = Input(shape=(h,w,3))
 
 # Encoder model
-x = Conv2D(64, (7, 7), activation='relu', padding='same')(input_img)
+x = Conv2D(8, (5, 5), activation='relu', padding='same')(input_img)
 x = MaxPooling2D((2, 3), padding='same')(x)
-x = Conv2D(32, (7, 7), activation='relu', padding='same')(x)
+x = Conv2D(32, (5, 5), activation='relu', padding='same')(x)
 x = MaxPooling2D((2, 2), padding='same')(x)
-x = Conv2D(16, (5, 5), activation='relu', padding='same')(x)
+x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
 encoded = MaxPooling2D((2, 2), padding='same')(x)
 
 # Decoder model
-x = Conv2D(16, (5, 5), activation='relu', padding='same')(encoded)
+x = Conv2D(64, (3, 3), activation='relu', padding='same')(encoded)
 x = UpSampling2D((2, 2))(x)
 x = Conv2D(32, (5, 5), activation='relu', padding='same')(x)
 x = UpSampling2D((2, 2))(x)
-x = Conv2D(64, (7, 7), activation='relu', padding='same')(x)
+x = Conv2D(8, (5, 5), activation='relu', padding='same')(x)
 x = UpSampling2D((2, 3))(x)
-decoded = Conv2D(3, (7, 7), activation='sigmoid', padding='same')(x)
+decoded = Conv2D(3, (5, 5), activation='sigmoid', padding='same')(x)
 
 # Reconstruction model
 autoencoder = Model(input_img, decoded)
@@ -58,10 +58,7 @@ output_Y = load_image( '/Full/')
 input_X = load_image( '/Sample/')
 
 # Split data into training and testing sets
-x_train,x_test,y_train,y_test = train_test_split(input_X,
-                                                 output_Y, 
-                                                 test_size=0.1, 
-                                                 random_state=13)
+x_train,x_test,y_train,y_test = train_test_split(input_X, output_Y, test_size=0.1, random_state=13)
 
 # -------------- Train the model --------------- #
 
